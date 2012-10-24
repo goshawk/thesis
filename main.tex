@@ -1,0 +1,75 @@
+%
+% University of Illinois at Chicago, Chicago, IL, USA
+% Master of Science in Electrical Engineering and Computer Science
+%
+% @AUTHOR: Alessio Montone
+% @EMAIL: alessio.montone@gmail.com
+% @ORGANIZATION: DRESD
+% @LAST-UPDATE: May, 2008
+% @VERSIONING_CONTROL: v1.0
+%
+% @COMMENTS: 
+%
+
+\documentclass{uicthesi}
+
+\usepackage{amsmath} 
+\usepackage{rotating}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage{makeidx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\newcommand{\lyxline}[1][1pt]{%
+  \par\noindent%
+  \rule[.5ex]{\linewidth}{#1}\par}
+\newcommand{\noun}[1]{\textsc{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+ \setlength{\leftmargin}{\labelwidth}
+ \addtolength{\leftmargin}{\labelsep}
+ \renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+
+
+%\floatstyle{ruled}
+%\newfloat{algorithm}{tbp}{loa}
+%\floatname{algorithm}{Algorithm}
+
+\makeindex
+
+% bibliographic style with names and year, 
+% NOT reference numbers
+%\bibliographystyle{forma}
+
+% this is the main file of the thesis, where to contain all the chapters
+% of the whole thesis
+\begin{document}
+
+\title{Time-Driven Reconfiguration-Aware Floorplacer}
+\author{Alessio Montone}
+\pdegrees{Bachelor in Computer Engineering, Politecnico di Milano, 2006}
+\degree{Master of Science in Computer Science}
+\maketitle
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+\newpage
+\include{body}
+
+% \newpage
+% \printindex
+
+%\newpage
+%\bibliography{./uic}
+%\include{resume}
+\end{document}
