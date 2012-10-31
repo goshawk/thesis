@@ -4,3 +4,9 @@
 *.aux
 *.fmt
 *.lot
+*.lol
+*.lof
+*.out
+*.toc
+*.bbl
+*.blg

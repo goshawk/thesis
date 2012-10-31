@@ -1,7 +1,6 @@
 % !TEX root = ../thesis.tex
 \chapter{Overview}
 \label{chapter:<Overview>}
-\ldots
 
 \acresetall
 
@@ -40,9 +39,43 @@ Recommendation systems, like search engines, are very complex systems with a str
 From a black box point of view a recommendation system is just a tool that given the proper input returns an output. No matter which algorithm, programming language, or added feature the recommendation system applies, all recommendation system analyzed respect this constraint. Given that we will explore the input of a recommendation system and its stack. The algorithms can be categorized in two families depending from the requested input:
 
 \begin{itemize}
-\item Content based.
-\item Collaborative.
+\item Content based. The elaboration of the suggested items listed are based on the content of the available object options \cite{content-based-recommendation-systems}. Therefore the only needed input for this family of algorithms is the \ac{ICM}. Due to the fact that these algorithms do not know anything about the user they are exposed to some limitations:
+  \begin{itemize}
+  \item the list of metadata influences the recommendation directly. If the list of metadata is not selected properly the recommendation can lead to very poor results for the user perspective.
+  \item cold start problem \cite{cold-start-recommendations}. without knowing anything about the user the system will may suggest items that are completely not relevant for the user. A solution for this kind of problem may be to shuffle the recommendation with the top popular items of the system. The top popular items of the system may be the most rated or the ones with best ratings.
+  \item user will always take suggestion based on a set of preferences that he/she set on the system even if a totally not related item may be interesting for the user. Usually this problem is overcome by `Surprise me` or `I feel lucky` buttons that the user can click that use different ways to select items that are not strictly dependent from the user preferences.
+  \item item overlapping. the algorithm can treat two different items from the database as if they were the same one. This may happen if the metadata associated to the two movies are similar. In this case the algorithm may hide one of the two items to the user.
+  \end{itemize}
+\item Collaborative. This kind of algorithm resemble one of the best algorithm for recommendation ever designed: the word of mouth \cite{social-information-filtering}. If one of your friends suggests to see a movie, maybe with him/her, we will likely do that. No matter if we already know that we may not like the genre or the actor involved, we will still go to see that movies. This continuously happen, even nowadays, every week. In fact movie producers in particular, invest a lot of money and effort in trying to have a good critics. Having a good critics influences the number of people that will watch a movie and thus the income of that movie. The same concept of `word of mount` is applied on these family of algorithms: based on the ratings, the user is inserted in a cluster of users with similar tastes, movies with good ratings from users in the same cluster are thus selected for the recommendation \cite{using-collaborative-filtering}.
+Two main concepts behind these algorithms must be clarified \cite{analysis-recommender-systems}:
+\begin{itemize}
+\item Proximity between users. Two users with similar tastes and interests tend to rate items in the same patterns. This property is one of the most exploited by the recommendation systems. It seems quite straightforward that if two users like horror movies and at both of them a good horror movie is proposed they will likely rate it the same way with small differences.
+\item Proximity between items. Two related items are usually rated by the same cluster of users at the same way. As in the previous case it seems quite straightforward that if two movies have the same actors and the same genres two similar users will rate the two movies almost in the same way.
 \end{itemize}
+As for the content based algorithms, collaborative algorithms have the following problems:
+\begin{itemize}
+\item Cold start problem \cite{cold-start-recommendations}. This problem is much more evident here than in content based algorithms. When a user is inserted in the system there is no way to determine in which cluster the user belongs. There are multiple ways to overcome this problem: the user, at first login, may be forced in rating some movies, this action will define an initial cluster for the users; another solution may be the one of using the top popular items to populate an initial recommendation.
+\item Recommendation freshness. New items that are added to the database and thus have no ratings will not be suggested in any recommendation in the system. This problem can be solved shuffling the recommendation with some new items that have not recommendation.
+\item Incomplete user profile. If the user rated few items, they are not enough to mold a profile and thus the user cannot be associated to any cluster. This happens because the ratings are not enough for the algorithm to decide to which cluster the user belongs. This can be avoided forcing the user, at first login, to rate a fixed amount of items, maybe from the most popular ones. This is the approach taken from Milo and then Movish to overcome this problem. When the user is going to obtain the first recommendation he/she is forced to rate five movies.
+\item Singular taste. If the user has a very singular taste the algorithm may be not able to create a cluster if not a single user cluster. This will make really hard for any recommendation system to suggest a relevant item for the user.
+\end{itemize}
+\end{itemize}
+
+Problems related to the algorithms can be overcome thanks to smart decisions taken by recommendation system in terms of user interface. In Movish the cold start problem, and the incomplete user profile problems are solved by forcing the user in rating some movies before the first recommendation. The recommendation freshness and the item overlapping problems are overcome displaying newest movies in the homepage and letting the user rating them.
+
+Collaborative algorithms have another categorization:
+\begin{itemize}
+\item User based. The main focus of the algorithm is the user itself. In this kind of algorithms the model is usually created using a `user x user` matrix in which both rows and columns are composed by users. Therefore, each user from the URM will be represented as a vector in a space with N dimensions, being N the number of items present on the database.
+The proximity between users is then found by the angle between vectors: small angle means that the two user profiles are similar.
+\item Item based. The main focus of the algorithm is the item. In this kind of algorithms the model is usually created using a `item x items` matrix in which both  rows and columns are composed by items and each cell represents the similarity level between the items that intersect. After this, the generation proceeding of suggestions are easily done, multiplying the user profile and the model just created which will result in the rating list to all database items to a certain profile.
+\end{itemize}
+
+\subsection{Comparison}
+\label{sec:Comparison}
+
+Collaborative algorithms are able to advice an user to see a totally unrelated item in relation to his/her previous ratings enabling a `surprise effect` for the user \cite{evaluating-collaborative-filtering}. As a side effect collaborative algorithms tend to mess the user ability to understand the relation between his or her tastes and the suggested item. Content based algorithms tends to be more clear from the user's perspective, shrinking the probability of confusion by the user. Thus collaborative algorithms tend to be more `aggressive` when compared to content based ones.
+
+TODO
 
 \subsection{Input}
 \label{sec:Input}
@@ -77,9 +110,26 @@ The rating can be collected in two different ways:
 \subsection{Stack}
 \label{sec:Stack}
 
- To make this possible recommendation system evolved in a stack like way that can be summarized in three phases:
+To make this possible recommendation system evolved in a stack like way that can be summarized in three phases \cite{sys-rec-matlab}:
 \begin{itemize}
-\item Batch or model creation
-\item Real time or recommendation generation
-\item Antireshuffling or recommendation update 
+\item Batch or model creation. This is a very computational intensive task. Given an ICM or URM it will create a model that will be used later during the recommendation. In this phase most of the computation is performed in order to reduce the computational resources of the next step. Due to the nature of this phase it is seldom run. Usually this kind of operations are run once a week or once a month.
+\item Real time or recommendation generation. Given the model elaborated in the previous step and a user or a set of users this task produces the recommendation or a list of items for the user or set of users. The main requirement in this phase is a fast response since it has to run in real-time during page generation. A late response leads in dissatisfaction of the user and a high probability of losing users just because they wait too much the page to be generated. The algorithm should be robust enough to prevent error condition and still gives a valid set of items. 
+\item Anti reshuffling or recommendation update. Even after recommendation generation, user can choose a suggested item and thus evaluate it. A good recommendation system is able to react actively under those circumstances and operate in order to generate a new recommendation taking into account the fact that new ratings are added. The new recommendation should thus based on the previous one with small modification. That is why it is called anti reshuffling, to avoid the cycle of the same items.
+
+Figure \ref{fig:Stack} summarize the stack of a recommendation algorithm to better clarify the concept. In the figure there is a clear distinction between what is batch and thus computational intensive and what is not. After that the model is ready the recommendation can be performed which generates the Top N List or the recommendation. 
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/stack.png}
+    \caption{Stack}
+    \label{fig:Stack}
+  \end{figure}
+\end{itemize}
+
+\section{Output}
+\label{sec:Output}
+
+As anticipated in the previous section the output of a recommendation system can be of two types:
+\begin{itemize}
+\item Individual scoring. Given a user the algorithm returns all the rating forecast for this user. This is then turned to a recommendation thanks to the following assumption: recommendation should select items relevant for the user or items that the user will like, since we have user rating forecast we can use the items with the greatest forecasts for our recommendation since the user will probably like them. 
+\item Top-N recommendation. The algorithm output a list of the Top-N items most suitable for a certain user. This can also be reproduced starting from the Individual scoring output and ordering that list in descending order of preference..
 \end{itemize}
