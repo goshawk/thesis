@@ -75,8 +75,6 @@ The proximity between users is then found by the angle between vectors: small an
 
 Collaborative algorithms are able to advice an user to see a totally unrelated item in relation to his/her previous ratings enabling a `surprise effect` for the user \cite{evaluating-collaborative-filtering}. As a side effect collaborative algorithms tend to mess the user ability to understand the relation between his or her tastes and the suggested item. Content based algorithms tends to be more clear from the user's perspective, shrinking the probability of confusion by the user. Thus collaborative algorithms tend to be more `aggressive` when compared to content based ones.
 
-TODO
-
 \subsection{Input}
 \label{sec:Input}
 
@@ -133,3 +131,19 @@ As anticipated in the previous section the output of a recommendation system can
 \item Individual scoring. Given a user the algorithm returns all the rating forecast for this user. This is then turned to a recommendation thanks to the following assumption: recommendation should select items relevant for the user or items that the user will like, since we have user rating forecast we can use the items with the greatest forecasts for our recommendation since the user will probably like them. 
 \item Top-N recommendation. The algorithm output a list of the Top-N items most suitable for a certain user. This can also be reproduced starting from the Individual scoring output and ordering that list in descending order of preference..
 \end{itemize}
+
+\section{Presentation}
+\label{sec:Presentation}
+
+The recommendation algorithm is essential in selecting a relevant subset of items for the user but it's not enough to create a credible recommendation \cite{applicaion-domain-and-functional-classification}. For the recommendation to be useful to the user it must be correctly exposed to the user attention. The way the information is displayed is fundamental and contribute in making a recommendation system successful or not. From recent studies it is also confirmed that the way a recommendation is displayed may affect the items selected by the user \cite{amazon-case}.
+
+Usually recommendation come in a list like form which is a natural way to display a vector of items. A study shows that a text structured overview with concise text and graphics not only facilitates the creation of a trustful relationship between the system and the user but increases user efficiency in selecting a recommended object \cite{trust-building}.
+
+All these studies have been taken in consideration while designing both ContentWise and Milo. They have also been considered in Movish too but the style has been modified taking into account that almost 10 years are passed from that studies and that web application such as Facebook, Twitter and Pinterest have been gained popularity among users. They provide new ways to explore and display a very big amount of data using a list like, in case of Facebook and Twitter or a catalog like in case of Pinterest, styles. Since movies can be easily represented by their poster which resembles the movie atmosphere, Movish uses a Pinterest like layout to display movie poster, title and genres.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/movish-homepage.png}
+  \caption{Movish homepage}
+  \label{fig:movish_homepage}
+\end{figure}
