@@ -40,7 +40,7 @@ In order to make the administrator able to add unmodified Matlab \cite{matlab} a
   \label{fig:urm_creation_code}
 \end{figure}
 
-The ``self.create_urm()'' generates the urm picking the data from the database. That python function returns a numpy array of users, movies, rating e and array indicating the dimension of the the matrix. The dimension is needed to create a sparse matrix of the right size. In fact the ``self.create_urm()'' function only returns actual data, skipping all the zeros. This avoid not necessary usage of ram due to too big matrices. Line from 2 to 5 put the variables in the matlab environment. Line 6 creates the sparse matrix into the matlab environment. The matrix created so is then stored as a .mat file for later use during the creation of the model.
+The ``self.create\_urm()'' method generates the urm picking the data from the database. That python function returns a numpy array of users, movies, rating e and array indicating the dimension of the the matrix. The dimension is needed to create a sparse matrix of the right size. In fact the ``self.create\_urm()'' function only returns actual data, skipping all the zeros. This avoid not necessary usage of ram due to too big matrices. Line from 2 to 5 put the variables in the matlab environment. Line 6 creates the sparse matrix into the matlab environment. The matrix created so is then stored as a .mat file for later use during the creation of the model.
 As you can see all the communication is handled by running string like commands. Variables are stored and retrieved from the matlab environment thanks to the ``get'' and ``put'' functions of Figure \ref{fig:matlab_put_get_code}.
 
 \begin{figure}
@@ -63,8 +63,36 @@ Milo was developed in a modular way and was the union of two subsystems \cite{th
   \label{fig:milo_architecture}
 \end{figure}
 
-CONTINUE HERE EXPLANING THE FIGURE
+The system is composed by a cherokee webserver. Each requests that arrives to the webserver spawns a new worker or is assigned to an existing one. Each worker is as instance of pyramid web framework with the application running. The frontend database is based on the NoSQL \cite{nosql} MongoDB \cite{mongodb} databases.
 
+NoSQL is a broad class of database managemet systems identified by non-adherence to the widely used relational database management system model. NoSQL databases are not built primarily on tables, and generally do not use structured query language for data manipulation. NoSQL database systems are often highly optimized for retrieve and append operations and often offer little functionality beyond record storage (e.g. key, value stores). The reduced run-time flexibility compared to full SQL systems is compensated by marked gains in scalability and performance for certain data models. In short, NoSQL database management systems are useful when working with a huge quantity of data when the data's nature does not require a relational model. The data can be structured, but NoSQL is used when what really matters is the ability to store and retrieve great quantities of data, not the relationships between the elements. Usage examples might be to store millions of key, value pairs in one or a few associative arrays or to store millions of data records. This organization is particularly useful for statistical or realtime analyses of growing lists of elements (such as Twitter posts or the Internet server logs from a large group of users).
+
+When the graphical engine needs to do a recommendation it makes a http RESTful request to another web application, whisperer, that cares about creating the \ac{ICM}, \ac{URM} and all the data structures needed for the recommendation. The recommendation engine relays on a PostgreSQL database for storing the data for the users and the items. Notice that the recommendation engine has only the concept of users and items, this means that it flexible enough to recommend any kind of item to a user. The fact that it was used for movies is thus just a particular case. This was one of the biggest improvements from ContentWise. The recommendation system developed could be reused for any kind of recommendation.
+
+The recommendation was exposed to the user through a slider placed on top of the page such that the user was likely to watch the slider for first. This has been accomplished using animations in the slider that capture the user attention. The result can be see in Figure \ref{fig:milo_slider} 
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/milo_slider.png}
+  \caption{Milo recommendation slider}
+  \label{fig:milo_slider}
+\end{figure}
+
+The rest of the homepage of Milo can be seen in Figure \ref{fig:milo_homepage} 
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/milo_homepage.png}
+  \caption{Milo homepage}
+  \label{fig:milo_homepage}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/milo_movie.png}
+  \caption{Milo movie description page}
+  \label{fig:milo_movie}
+\end{figure}
 
 In Figure \ref{fig:movish_homepage} the reader can see the movish.co homepage. 
 
@@ -74,6 +102,5 @@ In Figure \ref{fig:movish_homepage} the reader can see the movish.co homepage.
   \caption{Movish homepage}
   \label{fig:movish_homepage}
 \end{figure}
-
 
 \acresetall
