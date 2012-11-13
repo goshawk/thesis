@@ -78,7 +78,7 @@ The recommendation was exposed to the user through a slider placed on top of the
   \label{fig:milo_slider}
 \end{figure}
 
-The rest of the homepage of Milo can be seen in Figure \ref{fig:milo_homepage} 
+The rest of the homepage of Milo can be seen in Figure \ref{fig:milo_homepage}. As studies recall \cite{applicaion-domain-and-functional-classification}, the best way to expose items is an image and a brief description of the item. This has been accomplished in milo displaying the cover of the movie, its title, and its genres. Doing so in very few words the user has a clue about the movie and can thus decide if he/she is interested or not in the movie. If the user is interested, he/she can click on the movie cover to have see the movie description shown in Figure \ref{fig:milo_movie} 
 
 \begin{figure}
   \centering
@@ -93,6 +93,72 @@ The rest of the homepage of Milo can be seen in Figure \ref{fig:milo_homepage}
   \caption{Milo movie description page}
   \label{fig:milo_movie}
 \end{figure}
+
+The movie description page is thought to show mainly the poster of the movie in full dimension and its trailer. The user then gets two kinds of recommendation: the content dependent one and a user recommended one using a content based or a user based algorithm that the administrator decided. The user can then read the comments about a movie.
+
+In order to simplify the usage and the administration task, Milo integrated an admin interface to generate the algorithm models, download the relative model files, download the \ac{ICM} and \ac{URM} matrices and02 2399 3517 manage the surveys. For the first time the admin was able of placing the right matlab file in a directory, load the admin page, create a model for the newly added algorithm and create a survey for that algorithm without modifying one line of code in the system. This was the major improvement of all the previous systems of this kind.
+
+Milo had a two main problems: the first problem was that it had not a clear idea of what it was going to be, that resulted in a hard to maintain code and set of hacks to make things work as fast as possible. This also made the system weak due to many software bottlenecks caused by different databases and mainly by the available hardware for the project that was way limited. Also the matlab part was not optimized in order to reduce memory and free up space as soon as possible. The second problem was mainly the framework chosen, pyramid, that resulted hard to maintain and overcomplicated in the template section.
+Beside those limitations, Milo was an effective and useful system that was able to correctly manage users and generate new surveys.
+
+\subsection{Movish}
+\label{sec:movish}
+
+Movish is a step forward from Milo in the fact that it has a clear vision of the fact that it's a platform for research on new recommendation system algorithms. The system is developed in python and uses web2py \cite{web2py} as main framework. Web2py has been chosen over pyramid because it included all the feature Movish needed:
+\begin{itemize}
+\item \ac{MVC}. Web2py has a strong \ac{MVC} concept. The structure of the project defines the paths to reach each single function of the application. Models are easy to define thanks to the \ac{DAL} which has a direct mapping to \ac{SQL}. Web2py is also capable of doing automatic migrations: as soon as the code that defines a database table is changed, the application recognizes that and runs a \ac{SQL} ALTER TABLE query to update the database to have the same schema defined by the \ac{DAL}.
+The \ac{DAL} code of the database can be seen in Figures \ref{fig:db1}, \ref{fig:db2}, \ref{fig:db3}, \ref{fig:db4}, \ref{fig:db5}. 
+The \ac{ER} diagram can be seen on Figure \ref{fig:db_er}. This diagram shows all the relations between the various data structure. The real database is much bigger though. All the data structures used by the web2py framework have been disabled in the graph in order to allow an easy reading of the most important ones.
+\item Scheduler. Web2py has a power scheduler built in that has been heavily used in Movish. The use of that component is so deep that I have also found some bugs while coding the various tasks. All bugs promptly reported have been fixed in few days after submission. The scheduler allows the requests to be dispatched as fast as they can while allowing longer tasks to be scheduled. After registering the different tasks the framework itself can also trigger them if some conditions are satisfied. This is heavily used to update movies that have incomplete informations.
+\end{itemize}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/db1.png}
+  \caption{Database definition (part 1)}
+  \label{fig:db1}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/db2.png}
+  \caption{Database definition (part 2)}
+  \label{fig:db2}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/db3.png}
+  \caption{Database definition (part 3)}
+  \label{fig:db3}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/db4.png}
+  \caption{Database definition (part 4)}
+  \label{fig:db4}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/db5.png}
+  \caption{Database definition (part 5)}
+  \label{fig:db5}
+\end{figure}
+
+The main data structures are the one for storing informations about the user called ``auth\_user'' and ``users'', the one for storing the movies called ``movies'' and the one for the ``surveys''. ``auth\_user'' is web2py specific while ``users'' is an extension of ``auth\_user'' in order to support additional field while keeping it separated from the web system. This is so because there are two kind of users in the system. The ones that have registered from the web interface and the ones that have been added from the crawler that gets data from imdb.com \cite{imdb}. We will talk about this later. For now just mind that we don't want to pollute the ``auth\_user'' table with crawled user that will likely never use the system.
+
+\begin{figure}
+  \centering
+  \includegraphics[height=0.7\textheight, angle=90]{figures/db_er.png}
+  \caption{Database ER diagram}
+  \label{fig:db_er}
+\end{figure}
+
+The ``movies'' data structure stores all the informations about a movie and it is i a many-to-many relationship with either ``features'', ``genres'' and ``persons\_in\_movies''. ``ratings'' are also a central data structure that stores all the rating in a relative 0 to 1 float number where 0 is not rated, and 1 is rated as the most awesome movie. Since various algorithms use different scales, this representation allows to use a common scale and then do the required conversion then the \ac{URM} is generated for a particular algorithm.
+The ``surveys'' data structure takes into account the users allowed to perform a survey, the user answers and the algorithm used.
+
 
 In Figure \ref{fig:movish_homepage} the reader can see the movish.co homepage. 
 
