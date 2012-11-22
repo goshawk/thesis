@@ -1,5 +1,5 @@
 % !TEX root = ../thesis.tex
-\chapter{Movish recommendation system for movies}
+\chapter{Movish system background}
 \label{chapter:movish_system}
 
 \section{Introduction}
@@ -34,7 +34,7 @@ Since there wanted to be clear distinction between the engine and the presentati
 
 In fact Pyramid allows to have a base \ac{MVC} framework skeleton and plug it with all the libraries you need for your application. Also modifying the base components it is easy and suggested by developers to fully satisfy the application needs. In particular Milo had to communicate with a matlab \cite{matlab} based set of algorithms. Thanks to pymatlab \cite{pymatlab}, python is able to talk directly to matlab in a way that reminds a server-client socket communication.
 
-As stated in chapter \ref{chapter:<Overview>}, recommendation systems perform recommendations using a model. This model requires a lot of computational power and time. Web applications have a better user experience if they have a lower page load delay instead. To overcome this conflicting needs a asynchronous task manager framework has been integrated to allow the web application to trigger some events that add new tasks. These tasks are thus run on a separate process.
+As stated in chapter \ref{chapter:<recommendation_system_state_of_the_art>}, recommendation systems perform recommendations using a model. This model requires a lot of computational power and time. Web applications have a better user experience if they have a lower page load delay instead. To overcome this conflicting needs a asynchronous task manager framework has been integrated to allow the web application to trigger some events that add new tasks. These tasks are thus run on a separate process.
 
 In order to make the administrator able to add unmodified Matlab \cite{matlab} algorithms the pymatlab \cite{pymatlab} library has been used. Pymatlab makes python be able to communicate with matlab via the matlab shell using accessible via a socket like interface. Figure \ref{fig:urm_creation_code} shows a piece of code of the creation of the \ac{URM} from the python side.
 
@@ -184,7 +184,7 @@ As stated before, one of the main advantages of Movish is the heavy use of the s
   The relevant code about the auto update of a movie is in Figure \ref{fig:schedule_update}. It is part of the view which is the last piece of code executed before sending the output back to the user browser. 
 
 Web2py allows to put pure python code into the html pages in order to perform any kind of operation and also embed small logic related to the view. This flexibility is used to detect that if the movie has no year set and the poster is set to the default unknown poster which is ``images/unknown'' then schedule to retrieve a movie by its id and parse all the reviews of the movie in imdb.com.
-\item Create model. As explained in Chapter \ref{chapter:<Overview>}, the creation of a model is an expensive operation. This characteristic allows it to be suitable for a scheduled task. In fact the administrator can create the model for each supported algorithm clicking the associated button in the administrator interface. Alternatively, the model for a single algorithm is generated as soon as a survey is generated to include the new users that may have been added for the survey.
+\item Create model. As explained in Chapter \ref{chapter:<recommendation_system_state_of_the_art>}, the creation of a model is an expensive operation. This characteristic allows it to be suitable for a scheduled task. In fact the administrator can create the model for each supported algorithm clicking the associated button in the administrator interface. Alternatively, the model for a single algorithm is generated as soon as a survey is generated to include the new users that may have been added for the survey.
 In fact, doing a recommendation for an user which was not in the \ac{URM} at the moment of model creation will cause an error. This is why it is mandatory to schedule a new model for every newly submitted survey that adds new users to the system.
 \item Create of the \ac{ICM} and \ac{URM}. The creation of the two matrices is also an expensive query for the database this is why there is also a task for creating and storing them into matlab as a sparse matrices for easy retrieval.
 \item Features and titles vectors. For conformity also the two features and title vectors of all the items in the database are created using a task. The titles vector is a simple vector with the id and all the titles of the movies in the database. The features vector lists, for each item in the database all the metadata, or features, for that item.
@@ -197,6 +197,11 @@ Imdbpy is a python package useful to retrieve and manage the data of the imdb mo
 
 lxml is the most feature-rich and easy-to-use library for processing XML and HTML in python. Benchmarks available on their website shows that the library performs better than any known library in generating and parsing xml streams. It is also the library suggested by the python community.
 Youtube is accessed via the http RESTful api in order to search movie trailers. It simply searches for the title of the movie appending the word ``trailer'' to it and picks up the first non sponsored result of the search if any.
+
+\subsection{State of the art issues}
+\label{sec:state_of_the_art_issues}
+
+TO FILL
 
 \section{Conclusions}
 \label{sec:movish_conclusions}
