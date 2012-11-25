@@ -201,7 +201,15 @@ Youtube is accessed via the http RESTful api in order to search movie trailers. 
 \subsection{State of the art issues}
 \label{sec:state_of_the_art_issues}
 
-TO FILL
+In section \ref{sec:Analysis} we discussed about the issues that may affect a recommendation system. Every real world recommendation system has to address those problems. Movish tries to solve them in this way:
+
+\begin{itemize}
+\item \textbf{list of metadata}. Movish uses a tagger on the whole plot to retrieve the maximum number of metadata. It only removes all the conjuction and stopwords.
+\item \textbf{cold start}. In Movish the user is forced, during survey mode that will be exposed in chapter \ref{chapter:<survey_management>}, to perform a number of ratings that the administrator set at survey creation.
+\item \textbf{recommendation freshness}, thanks to the importer we will analyze on chapter \ref{sec:importer}, Movish answer to this issue being able to automatically fetch new movies from imdb.com including the ratings and thus the system will have new movies with also ratings. This makes the algorithms be able to use the new movies also at model creation even if the movies have never being displayed on Movish.
+\end{itemize}
+
+Other issues are algorithm specific and unable to be solved from Movish. Movish goal is to provide the best up to date environment of \ac{URM}, \ac{ICM}, titles and features vector for an algorithm that has to perform a recommendation. 
 
 \section{Conclusions}
 \label{sec:movish_conclusions}
