@@ -227,19 +227,99 @@ Tor \cite{tor} is a network of virtual tunnels that allows people and groups to 
 
 In movish, tor represent the crawler thanks to whom the importer can communicate to imdb.com and youtube.com in an anonymous way using different ip addresses every 10 minute in order to overcome to the bandwidth limitation that those two website impose to their users. Without this proxy the required time to create a useful dataset would require almost a year.
 
-PUT IMAGE HERE ABOUT CONFIGURATION OF THE CRAWLER
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/crawler_setting_code.png}
+  \caption{Importer setting the crawler as a gateway code}
+  \label{fig:importer_setting_crawler}
+\end{figure}
+
+Figure \ref{fig:importer_setting_crawler} shows a small snippet of code from the \textbf{Importer} that sets up the \textbf{Crawler} as a proxy to reach both youtube and imdb. The code exposed is located at file named \textit{modules/importer.py} at line 125. Thanks to the urllib2 python library flexibility it is possible to configure each request to use a proxy creating an \textit{opener} object. Last line adds an user agent signature to each request to act like a real user opening the requested page.
 
 \subsection{Recommendation engine}
 \label{sec:recommendation_engine}
 
+The recommendation engine is the section of the application responsible of making and retrieve recommendations using a Matlab \cite{matlab} engine. It was one of the constraints of the system since Milo because all the algorithms developed by the research group at Politecnico di Milano are implemented using that program. Matlab is heavily used in many courses at Politecnico di Milano and many other universities around the world, the Netflix competition \cite{netflixprize} was also released using Matlab .mat files.
+
+There is one single file in which matlab is imported and used in the entire system and it is in the \textit{modules/matlab\_wrapper.py}. The file contains mainly a object called \textbf{Whisperer}. This object exports all the function to create the matlab matrices \ac{ICM} and \ac{URM}, the titles and features vectors, the model for each supported algorithm and the recommendation for a given user. The object is also able to talk with the database in order to retrieve the correct data.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/urm_and_icm_creation.png}
+  \caption{URM and ICM creation}
+  \label{fig:urm_and_icm_cration}
+\end{figure}
+
+Figure \ref{fig:urm_and_icm_cration} shows a snippet used for the \ac{URM} and \ac{ICM} generation. The variables are inserted in the matlab environment thanks to the \textit{self.\_put()} function while the matlab commands are run thanks to the \textit{self.\_run()} function. One of the big improvements of this piece of the application compared to Milo is the optimization performed at memory level by replacing matrices with sparse matrices. This change imposed a change in the whole way the matrices are managed but it was able to drop memory requirements from 80Gb to 3Gb of \ac{RAM}. After the matrices are computed they are stored in Matlab .mat files for easy retrieval from the admin interface exposed in section \ref{sec:admin_interface}.
+
+Each function that deals with matlab uses a \textbf{@matlab} python decorator. A decorator in python is a function that is applied to other functions. In this case the @matlab decorator ensures that the function that will be called using matlab will find a clear environment from other variables. This enhancement prevent the system from keep loading and unloading matlab environments for each function to call. The system keeps a single matlab session ready for each function, each function that is called cleans the environment after it exits thanks to the decorator instead.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/create_model.png}
+  \caption{Create model code}
+  \label{fig:create_model}
+\end{figure}
+
+Figure \ref{fig:create_model} shows the code to create a model. As you can see the action is performed by two functions. The first one called \textbf{create\_model} ensures that the \ac{URM} and the \ac{ICM} are created. It thus calls the \textbf{\_create\_model} function that manages a matlab session, this is why it has the \textbf{@matlab} decorator, and performs the actual recommendation calling the right function name for the given algorithm in order to create the model.
+
+The recommendation is done in a similar way of the model creation from the \textbf{get\_rec} function. It accepts three parameters being the algorithm name and the user id. It then retrieve the user profile and performs the recommendation for the given algorithm if a model exists.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/matlab_algorithms_tree.png}
+  \caption{Matlab algorithm tree structure}
+  \label{fig:matlab_tree_structure}
+\end{figure}
+
+The recommendation engine has also an auto discovery functionality of new algorithms. When generating the lists of algorithms it simply looks in the \textit{modules/algorithms/recsys\_matlab\_codes/algorithms/} directory and look for files which name that starts with \textbf{onLineRecom}. In fact all the algorithm have the form of \textit{onLineRecom\_algorithm.m}. For each algorithm found, the relative model creation function is looked up searching in the same directory of the algorithm for a \textit{createModel\_algorithm.m}. That file contains the function to generate the model for a given algorithm. Figure \ref{fig:matlab_tree_structure} shows the matlab algorithms tree structure. Each algorithm is categorized to be collaborative, content based or non personalized. For each class of algorithms, there are all the relevant sub classes.
+
+All the computations that result in a creation of a file for matlab store the newly created file in the \textit{modules/elaborated\_models/}.
+
 \section{Structure}
 \label{sec:structure}
+
+The project structure is based on web2py \cite{web2py} one. The project has been published on GitHub \cite{github}. GitHub defines itself like ``the best place to share code with friends, co-workers, classmates, and complete strangers. Over two million people use GitHub to build amazing things together''. GitHub is a webapp designed to share code using the git \cite{git-scm} revision control system. The application is composed mainly by the controllers, views, static, modules and models directory. All the other directories are the basic template of a web2y application.
+
+\begin{itemize}
+\item \textbf{controllers} directory contains all the controllers of the application. \textit{admin.py} defines the controllers of the admin interface \ref{sec:admin_interface} with all the functions and the actions that the administrator can perform. \textit{default.py} is the default controller which is called when the homepage is called. it has the \textit{index} function that perform the basic visualization of the list of movies. \textit{movie.py} is the controller for displaying the details of a movie. \textit{rating.py} is the controller that takes care of performing ratings for a movie. This last controller is different from the other since it is designed to works as a module for other controllers. In fact the rating of a movie is always associate with a movie, so this controller is responsible of generating the correct stars indicating the rating and load the previous rating for a movie if the user already gave a rating for that movie. \textit{survey.py} is the controller that handles all the survey creation.
+\item \textbf{models} directory contains all the data structures used in the application. The \textit{db.py} defines all the database structure the reader can have a look to the ER diagram on section \ref{sec:movish}. \textit{menu.py} defines the context menu that is displayed to the user. It is the menu on top on the black line which never changes and is the landmark for the user. \textit{scheduler.py} this file defines the scheduler tasks. It uses the web2py automatic task discovering features to add the functions to the scheduler. We analyzed the code of the scheduler on secion \ref{sec:scheduler}. \textit{whisperer.py} contains all the function that are called by the application to schedule tasks of the scheduler. Thanks to this file adding a task to the scheduler is easy like calling a function.
+\item \textit{modules} directory contains all the matlab algorithm under the  \textit{algorithms} directory and all the models under \textit{elaborated\_models}. The \textit{countries.py} file defines the list of all countries in the world used by the surveys while asking the demographic data. \textit{importer.py} defines the Importer we talked in section \ref{sec:importer}. \textit{matlab\_wrapper.py} is the only file that interact with the matlab engine, thus is the only file that imports pymatlab \cite{pymatlab}. \textit{metadata.py} is the file used to set up the python \ac{nltk} \cite{nltk}. Nltk is a leading platform for building Python programs to work with human language data. It provides easy-to-use interfaces to over 50 corpora and lexical resources such as WordNet, along with a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning. Nltk is used by Movish to perform plot tagging and extract the metadata for the movie. These metadata are useful for the \ac{ICM} generation as explained in section \ref{sec:Input}.
+\item \textit{static} directory contains all the static content of the application. Mainly all the css the the images.
+\item \textbf{views} directory contains all the html files that are used for outputting the data generated by the controllers to the user.
+\end{itemize}
 
 \section{Dataset}
 \label{sec:dataset}
 
+The initial dataset used for milo was the one used for the netflix competition \cite{netflixprize} but since it was released in 2001 it was soon figured out that it was pretty outdated and not useful for real recommendations with users. This is why in milo there were a basic importer to get the informations from the imdb.com website. That importer was only able to retrieve basic information. In movish the importer is now able to parse imdb.com directly, to talk to imdb thanks to the imdbpy \cite{imdbpy} library and to parse youtube pages directly. It is also able to parse all reviews in different pages of a movie and get the ratings.
+
+Having this powerful importer, during three continuous months of scraping the imdb.com website, the majority of movies from the 1950 until now have been imported in the system. Resulting in 154606 distinc titles and 106266 distinct users as for Nov 23th 2012. In order to keep the datased up to date, the admin can create a task of updating all the movies via the admin interface explained in secion \ref{sec:admin_interface}. The system is also able to automatically detect if a movie has not all the information and schedules a task for updating the movie information as explained in figure \ref{fig:movie_update}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/auto_update_movie.png}
+  \caption{Automatically schedule a movie information update}
+  \label{fig:movie_update}
+\end{figure}
+
+When the movie is displayed if the year field is missing or if the poster of the movie is not defined, the movies is then scheduled for an update. The system also provide a cronjob to automatically fetch new reviews and new movies that are going to be released in the next five years or that have been released in the past five years. This ensures that the system has up to date movies an reviews from imdb distributing the load of updating the dataset during time.
+
+This is one of the biggest improvement from ContentWise \cite{ContentWise} and enables new scenario and integration with other realtime or up to date system such as Facebook and Twitter.
+
 \section{Conclusions}
 \label{sec:movish_system_conclusions}
 
+Movish is an extensible fully automatic recommendation survey system for movies. Thanks to its fundamental in bleeding edge technologies and functionalities it is able of self updating the dataset, perform async recommendations, and having a good look and feel thanks to the simple interface. It's architecture is composed by many independent pieces that collaborates each other as explained in section \ref{sec:architecture} minimizing the point of failures that were one of the main problems in Milo. 
+
+There are some factor that may limit the evolution of Movish in the long term:
+
+\begin{itemize}
+\item \textbf{Matlab dependence}. Having a matlab engine to support existing algorithms was a goal of the project but matlab has been proved, during the movish implementation, that it is not suitable for real time recommendation systems since it requires too many resources and it is too slow compared to native python implementation. In fact if the recommendation algorithms were implemented in python the system would require much less resources and be much faster than it is now. So in the future developing an alternate recommendation engine, maybe in python, would be very helpful and would not impact with the overall system.
+\item \textbf{Improved security}. As for now all the communication with the server is performed via insecure http connections. Switching to https would protect user data transferred over the internet and block password hijacking attempts.
+\item \textbf{Improve sources}. As for now only imdb.com and youtube.com are used as sources. Even if they are the most comprehensive sources available there are many more sources with ratings online that could be imported in the system to perform better recommendations.
+\end{itemize}
+
+In this chapter we didn't talk about survey management. Since it is another big feature of the web application, chapter \ref{chapter:<survey_management>} will explain how Movish handles surveys, how to create one and how to add a new type of survey.
 
 \acresetall
