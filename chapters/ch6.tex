@@ -95,8 +95,68 @@ After submitting the recommendation form the user is redirected to the last ques
 \section{Analysis}
 \label{sec:research_analysis}
 
+The data of the survey can be retrieved from the survey list of the admin interface described in section \ref{sec:admin_interface} by clicking oon the ``download results'' icon after the \textit{Amazon Turk link} column.
+
+For this kind of research the feeling of a good recommendation, such as the rating of the recommendation list, is the driver value of the research. So the first way to look at the data is to count the number of equal ratings and plot them in a barchart, one for each survey. This data is available from the questions of the survey at the question regarding the usefulness of the recommendation.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/survey2_graph1.png}
+  \caption{Survey having two displayed movies}
+  \label{fig:survey2}
+\end{figure}
+
+Figure \ref{fig:survey2} shows the number of users grouped by the rate on the recommendation or the usefulness of the recommendation. The first results that highlights in that graph is the fact that over 25 surveys, displaying 2 movies resulted in a very bad recommendation for 5 users. It was also very good for 12 users (summing the \textit{good} and \textit{optimal} columns). The \textbf{average} of all the ratings is \textbf{2.96}, the \textbf{standard deviation} is \textbf{1.84}.   
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/survey5_graph1.png}
+  \caption{Survey having five displayed movies}
+  \label{fig:survey5}
+\end{figure}
+
+Figure \ref{fig:survey5} shows the same graph for the second survey, the one displaying 5 movies at time while the user has to answer the question about the usefulness of the recommendation. A big amount of users thinks that the recommendation has medium usefulness. The big difference with the previous data is that the number of very bad recommendation is down to only one case and that the number of users that declare that the recommendation is optimal (score of 5) is significantly dropped. The \textbf{average} of all the ratings is \textbf{2.87} and the \textbf{standard deviation} is \textbf{1.24}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/survey10_graph1.png}
+  \caption{Survey having ten displayed movies}
+  \label{fig:survey10}
+\end{figure}
+
+Figure \ref{fig:survey10} shows the same graph for the third survey instead, the one in which the user sees 10 movies at the time the user has to rate the recommendation he/she received. In this graph the number of user that rate the recommendation very bad is low like in the survey with 5 movies displayed but the number of people that rated the recommendation as poor is the same as the people that rated the recommendation to be medium. The \textbf{average} of all the ratings is \textbf{2.65} and the \textbf{standard deviation} is \textbf{1.41}.
+
+Due to the nature of the surveys and the different scale (each survey has a different number of samples or people that performed the survey), to better analyze this data considering the average as the primary driver and a higher standard deviation as a noise factor. Using the signal to noise ratio defined as 
+\begin{math}
+SNR=\mu/\sigma  
+\end{math}
+every survey can be reduced to a single scalar indicating which survey that had a different number of displayed movie was the best for the users. This leads to data in figure \ref{fig:research_signal_to_noise}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/research_signal_to_noise_ratio.png}
+  \caption{Signal to noise ratio for the three surveys}
+  \label{fig:research_signal_to_noise}
+\end{figure}
+
+These are the
+\begin{math}
+  SNR
+\end{math}
+for each survey:
+\begin{itemize}
+\item \textit{Survey with two displayed movies}: \begin{math}1.61\end{math}
+\item \textit{Survey with five displayed movies}: \begin{math}2.31\end{math}
+\item \textit{Survey with ten displayed movies}: \begin{math}1.88\end{math}
+\end{itemize}
+
+This last graph shows how each survey performs in terms of user likeliness of the recommendation based on the number movies displayed during the recommendation phase. The higher is the bar, the better is the survey.
+
 \section{Conclusions}
 \label{sec:research_conclusions}
 
+This research wanted to prove if the usefulness of a recommendation depends on the number of items that are displayed to the user. In order to perform the research three surveys with the same recommendation algorithm have been submitted to 90 different users using Amazon Mechanical Turk and Facebook. The only difference between the surveys was the different number of movies displayed during the recommendation. The first survey had two displayed movies, the second one had five movies and the third one had ten movies. 
+The collected data showed a relation between the different number of movie displayed and the usefulness of the recommendation itself. After further study, considerations and calculating the mean and the standard deviation the three surveys have been compared using the signal to noise ratio.
+This lead the survey with five movies displayed to be the one that the user prefer compared to the one with two or ten. If there wouldn't be any relation between the number of displayed movies and usefulness of the recommendation there wouldn't be any significant difference in the average usefulness of the recommendation and its standard deviation. 
 
 \acresetall
