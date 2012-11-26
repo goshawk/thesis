@@ -1,11 +1,17 @@
 % !TEX root = ../thesis.tex
-\chapter{Research: pureSVD strenght}
-\label{chapter:<research_puresvd_strenght>}
+\chapter{Research}
+\label{chapter:<research_number_of_items>}
 
 \section{Introduction}
 \label{sec:research_introduction}
 
-This represents the research bla bla bla
+The visualization has been proven to be an essential part in the recommendation since it can determine if it is useful or not from the user point of view \cite{trust-building}. There have been studies to determine how an item should be presented to the user in order to gain his/her attention as described in section \ref{sec:Presentation} but there are not been much documented studies about the number of items that a recommendation system should display in order to maximize the user perception of a good recommendation.
+
+Thus the proposal of this research is to evaluate how the number of movie visualized alter the user perception of a good or bad recommendation. To be scientific valid only one variable of the system should vary between all the test groups. In this case the number of items displayed has been chosen to vary between 2, 5 and 10 with at least 30 samples (or completed surveys) each. This is also the first research done using the Movish automatic recommendation survey system.  
+
+As for algorithm pureSVD has been chosen because it has been proved to have the best performances between all the algorithms supported by the Movish system \cite{performance-recommender-algorithms}. PureSVD was the top performer in both Movielens and Netflix \cite{netflixprize} datasets beating more detailed and sophisticated latent factor models even if it is one of the simplest algorithms available.
+
+In section \ref{sec:research_sources} the reader will be guided in analyzing the various sources used, in section \ref{sec:research_survey} a complete survey for this research is exposed. Then in section \ref{sec:research_analysis} the analysis of the data is published and section \ref{sec:research_conclusions} exposes the conclusions.
 
 \section{Sources}
 \label{sec:research_sources}
@@ -35,7 +41,7 @@ The facebook post was able to retrieve a total 13 users performing the survey of
 \section{Survey}
 \label{sec:research_survey}
 
-In order to fulfill the goal of this research a survey type of \textbf{algorithm\_strength} with 5 free ratings using \textbf{pureSVD} algorithm has been chosen.
+In order to fulfill the goal of this research a survey type of \textbf{algorithm\_strength} with 5 free ratings using \textbf{pureSVD} algorithm has been chosen. The reason of this choice are explained in section \ref{sec:research_introduction}. The survey starts asking general demographic information as shown in figure \ref{fig:survey_phase_1}.
 
 \begin{figure}
   \centering
@@ -44,6 +50,8 @@ In order to fulfill the goal of this research a survey type of \textbf{algorithm
   \label{fig:survey_phase_1}
 \end{figure}
 
+The user is asked to put the age, the gender, the education type, the nationality and the average numbers of movies watched per month. The goal of those questions is to associate the user with a cluster of users since the preference for a special category of movies change in respect of the age and the nationality. The average number of movies watched per month is an indicator to test if the user likes, in general, watching movies.
+
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{figures/free_ratings.png}
@@ -51,12 +59,20 @@ In order to fulfill the goal of this research a survey type of \textbf{algorithm
   \label{fig:survey_phase_2}
 \end{figure}
 
+After the demographic questions the user is able to perform the free ratings from the page shown in figure \ref{fig:survey_phase_2}. From this page the logout link in the top right part of the page disappear: the user which is performing the survey is not supposed to logout anymore. Beside this also all the not useful links that may lead the user out of the Movish system are removed in order to force the user in completing the survey before leaving the system.
+
+To facilitate the user in starting rating movies, the top 15 movies with ratings in the system are chosen and displayed: they represent the top popular movies in the system. The user can rate directly in the homepage thanks to the star system under each movie poster or by going to the movie detail page and rate again from there using the same star system. Optionally the user can also see the trailer and read the plot of a movie in the movie detail page shown in figure \ref{fig:movie_detail}.
+
+User is also allowed to use the search box to look for any movie he/she wants. In fact this way of looking to the items is suggested by the top message of the page. It is so to test the completeness of the catalog. After the user rated the number of free ratings chosen by the administrator at survey creation discussed in section \ref{sec:survey_creation}, the system automatically redirect the user to the next page of the survey, the catalogue questions.
+
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{figures/survey_catalog.png}
   \caption{Survey phase 3}
-  \label{fig:survey_phase_4}
+  \label{fig:survey_phase_3}
 \end{figure}
+
+These questions are shown in figure \ref{fig:survey_phase_3}. The user is asked to answer some questions related to the catalogue he/she just browsed doing the free ratings. He/she has to answer questions about the browsing experience: looking for specific movies or not, if some movies were not found, to list their names, the completeness of the catalogue and what he/she liked about the website about color palette, text readability, organization and orientation guidelines. After submitting the form the user is redirected to the next phase, the recommendation. 
 
 \begin{figure}
   \centering
@@ -65,6 +81,8 @@ In order to fulfill the goal of this research a survey type of \textbf{algorithm
   \label{fig:survey_phase_4}
 \end{figure}
 
+It is shown in figure \ref{fig:survey_phase_4}. In order to have a better image for this thesis, the survey with only two recommendation has been chosen. The number of movies displayed in this phase are 2,5 or 10 depending from which specific survey the user is performing. All the not necessary links are removed. The user cannot see the details of a movie either or click on the genres of a movie to perform a search. Given the poster and the title of the movies in the list only the user has to ask question regarding the number of movies watched, the number of movie the user have heard of, the number of watched movies the user likes or dislikes, the recommendation sentiment or if the recommendation is useful for the user or not, which is the main question leading this research and the number of movies from the recommendation that the user will be likely to watch.  
+
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{figures/survey_localinfo.png}
@@ -72,6 +90,7 @@ In order to fulfill the goal of this research a survey type of \textbf{algorithm
   \label{fig:survey_phase_5}
 \end{figure}
 
+After submitting the recommendation form the user is redirected to the last questions shown in figure \ref{fig:survey_phase_5}. The user is asked of inserting the place in which the survey is taking place and why the user is performing the survey.
 
 \section{Analysis}
 \label{sec:research_analysis}
