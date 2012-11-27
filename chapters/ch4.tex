@@ -12,7 +12,7 @@ The reader will be guided on a tour that will include the project architecture, 
 \section{Architecture}
 \label{sec:architecture}
 
-Differently from ContentWise, a monolitic application, and from Milo, a fully separated application, Movish sits in the middle: it is a modular application. The \ac{GUI} and the recommendation engine are in the same application but are two different modules that cooperate in order to limit the point of failures (that were too spread on Milo) and allow flexibility.
+Differently from ContentWise, a monolitic application, and from Milo, a fully separated and modular application, Movish sits in the middle: it is a modular application. The \ac{GUI} and the recommendation engine are in the same application but are two different modules that cooperate in order to limit the point of failures (that were too spread on Milo) and allow flexibility.
 
 \begin{figure}
   \centering
@@ -24,11 +24,12 @@ Differently from ContentWise, a monolitic application, and from Milo, a fully se
 The architecture of the system can be see on Figure \ref{fig:movish_architecture}.
 The system is exposed to internet(working) thanks to a cherokee web server \cite{cherokee}. Cherokee is an innovative, feature rich, and yet easy to configure open source web server. Its goal is to be as fast as it can and serve as many user as the hardware can hold. It is also C10K problem \cite{c10k-problem} aware. The C10k problem is the problem of serving 10.000 concurrent connections with commodity hardware, it has been well studied and only few webservers have been designed to address this problem.
 
-Cherokee has been chosen for this project because it resulted to be both flexible and fast. Other webserver have been evaluated like nginx and apache. The first one was very good in benchmarks but lacked in flexibility, the latter was very modular but less likely to scale as soon users grow or the system is under heavy load, which is the case while a recommendation is performed while a model is being created.
+Cherokee has been chosen for this project because it resulted to be both flexible and fast. Other webserver have been evaluated like nginx \cite{nginx} and apache werbserver \cite{apache-webserver}. The first one was very good in benchmarks but lacked in flexibility, the latter was very modular but less likely to scale as soon users grow or the system is under heavy load, which is the case while a recommendation is performed while a model is being created.
 
-Movish core modules are the graphical engine and the scheduler which have their basis on the web2py \cite{web2py} framework. The graphical engine speaks to the webserver thank to an application handler called uWSGI \cite{uwsgi}. uWSGI is an extremely advanced, sysadmin-friendly, highly-modular application container server written in POSIX-compatible C. It is the glue that connect the webserer with the application. As for the webserver, uWSGI has been chosen for its benchmarks and its lightweight.
+Movish core modules are the graphical engine and the scheduler which have their basis on the web2py \cite{web2py} framework. The graphical engine speaks to the webserver thank to an application handler called uWSGI \cite{uwsgi}. uWSGI is an extremely advanced, sysadmin-friendly, highly-modular application container server written in POSIX-compatible C. It is the glue that connect the webserver with the application. As for the webserver, uWSGI has been chosen for its benchmarks and its lightweight.
 
 The application relays in two other software and two services to work:
+
 \begin{itemize}
 \item A matlab \cite{matlab} engine executable installed in the local appliance. This is needed to perform the various operations with the algorithms that are written in matlab.
 \item A PostgreSQL \cite{postgresql} database either remote or local. The database is the primary source of information for various parts of the executable. It is mainly used by the graphical engine, to get information to display about movies and users, and from the scheduler to coordinate all the workers for all the tasks. The importer also uses the database in order to store the crawled data.
@@ -37,15 +38,16 @@ The application relays in two other software and two services to work:
 \end{itemize}
 
 Movish is a complex application that can be divided in different areas:
+
 \begin{itemize}
-\item Graphical engine. This is the core of the \ac{MVC} structure. It is responsible of answering the requests from the user, elaborate data and display the output.
-\item Admin interface. This is the administrator specific part that is used to administrate the whole application from model creation, data retrieval, configuration of the algorithms, importing of new movies, administrate the scheduler, create new surveys and retrieve system information and status.
-\item Scheduler. This component has the main task of taking computational intensive operations and execute in a separate process, then populate the database with the result of the computation. Since most of the operations with matrices are very computational intensive this module is heavy used by all the parts of the application.
-\item Importer. It is the component that calls the crawler and manages the information from the crawler in an ordered way for storing into the database.
-\item Crawler. It is responsible for getting all the information it can from imdb.com and youtube.com based on a movie or a set of movies. It is also able to parse imdb user pages and their ratings. It is most used by the task that update a movie given a movie id.
-\item Recommendation engine. This component takes care of managing the communication with the Matlab engine. Since most of the operations of this module are very computationally expensive, this module is very used by the scheduler.
-\item Recommendation algorithms. Those are all the matlab algorithms placed in a specific folder of the project. There is a logic to detect all the algorithms in a subtree of directories.
-\item Models. As described in section \ref{sec:Stack}, models need to be created to perform the recommendation. This component manages all the created models for each algorithm in the system.
+\item \textbf{Graphical engine}. This is the core of the \ac{MVC} structure. It is responsible of answering the requests from the user, elaborate data and display the output.
+\item \textbf{Admin interface}. This is the administrator specific part that is used to administrate the whole application from model creation, data retrieval, configuration of the algorithms, importing of new movies, administrate the scheduler, create new surveys and retrieve system information and status.
+\item \textbf{Scheduler}. This component has the main task of taking computational intensive operations and execute in a separate process, then populate the database with the result of the computation. Since most of the operations with matrices are very computational intensive this module is heavy used by all the parts of the application.
+\item \textbf{Importer}. It is the component that calls the crawler and manages the information from the crawler in an ordered way for storing into the database.
+\item \textbf{Crawler}. It is responsible for getting all the information it can from imdb.com and youtube.com based on a movie or a set of movies. It is also able to parse imdb user pages and their ratings. It is most used by the task that update a movie given a movie id.
+\item \textbf{Recommendation engine}. This component takes care of managing the communication with the Matlab engine. Since most of the operations of this module are very computationally expensive, this module is very used by the scheduler.
+\item \textbf{Recommendation algorithms}. Those are all the matlab algorithms placed in a specific folder of the project. There is a logic to detect all the algorithms in a subtree of directories.
+\item \textbf{Models}. As described in section \ref{sec:Stack}, models need to be created to perform the recommendation. This component manages all the created models for each algorithm in the system.
 \end{itemize}
 
 \subsection{Graphical Engine}
@@ -121,7 +123,8 @@ The actions menu in figure \ref{fig:actions_menu} shows all the possible actions
   \label{fig:algorithms_menu}
 \end{figure}
 
-When the Algorithms menu in figure \ref{fig:algorithms_menu} is clicked, a list of all the algorithms located in the ``modules/algorithms'' sub-directory of the project is created and displayed. Each algorithm can be clicked. As soon as it is, the information about that specific algorithm is displayed. Figure \ref{fig:algorithms_menu} displays all the algorithms that are available in the system as for now. 
+When the Algorithms menu in figure \ref{fig:algorithms_menu} is clicked, a list of all the algorithms located in the \textit{modules/algorithms} sub-directory of the project is created and displayed. Each algorithm can be clicked. As soon as it is, the information about that specific algorithm is displayed. Figure \ref{fig:algorithms_menu} displays all the algorithms that are available in the system as for now. 
+
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{figures/algorithm_detail.png}
@@ -147,18 +150,7 @@ Figure \ref{fig:matrice_menu} shows the detail of the matrices in the system. It
   \label{fig:surveys_menu}
 \end{figure}
 
-Clicking on the \textbf{Surveys} button in the menu will open a sub menu for creating a new survey, called \textbf{Create new survey}, and will show all the surveys in the system. As for the \textbf{Matrices} menu, there is a \textit{Actions} column to download the data about the survey, to stop it from being available to the users or to delete it from the system. Clicking on \textbf{Create new survey} will cause the content portion of the page to load a form for submitting a new survey like on figure \ref{fig:create_survey}.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\textwidth]{figures/create_survey.png}
-  \caption{Create survey}
-  \label{fig:create_survey}
-\end{figure}
-
-The administrator has to pick a name for the new survey, choose an algorithm from the drop down list which is, live for the \textbf{Algorithms menu} generated on the fly looking at the directory structure, the number of ratings that the user will perform
-
-YOU HAVE TO CHANGE THIS
+Clicking on the \textbf{Surveys} button in the menu will open a sub menu for creating a new survey, called \textbf{Create new survey}, and will show all the surveys in the system. As for the \textbf{Matrices} menu, there is a \textit{Actions} column to download the data about the survey, or to delete it from the system. Clicking on \textbf{Create new survey} will cause the content portion of the page to load a form for submitting a new survey. The reader can find more about the survey subsystem including survey creation or adding a new survey type on chapter \ref{chapter:<survey_management>}.
 
 \begin{figure}
   \centering
@@ -167,7 +159,7 @@ YOU HAVE TO CHANGE THIS
   \label{fig:bisect_menu}
 \end{figure}
 
-Figure \ref{fig:bisect_menu} shows the last menu item, \textbf{Bisect}. This is for meant for debbugging purposes. In Bisect the administrator can see the total complete tasks and the failed ones. For the last ten failed tasks there is a detailed traceback with useful information about the error and hopefully in how to fix it. In the figure there is a problem with a timed out connection for example. Of course the \textbf{Bisect} section is not meant to do be a full debugger but it may be really helpful to discover bad uses of the software without even opening an code editor.
+Figure \ref{fig:bisect_menu} shows the last menu item, \textbf{Bisect}. This is for meant for debugging purposes. In Bisect the administrator can see the total complete tasks and the failed ones. For the last ten failed tasks there is a detailed traceback with useful information about the error and hopefully in how to fix it. In the figure there is a problem with a timed out connection for example. Of course the \textbf{Bisect} section is not meant to do be a full debugger but it may be really helpful to discover bad uses of the software without even opening an code editor.
 
 \subsection{Scheduler}
 \label{sec:scheduler}
@@ -190,6 +182,7 @@ The scheduler is a fundamental part of the system. It is embedded in the web2py 
 
 The scheduler is mainly configured in file \textit{models/scheduler.py} which is shown in Figure \ref{fig:scheduler1} and Figure \ref{fig:scheduler2}. It mainly imports the importer module of which we will talk in section \ref{sec:importer} and encapsulates the most important functions in scheduler tasks.
 The defined functions are:
+
 \begin{itemize}
 \item \textbf{create\_model}. This function takes a name of an algorithm as its input and creates a model for the given algorithm. If the URM and the ICM are not in the system, they are created too.
 \item \textbf{import\_or\_update\_movie}. This is one of the most important scheduler tasks. It gets scheduled as soon as a movie with no title, no cover or no year information is displayed to the user. It fetches the information about a movie from imdb, surfs between all the reviews and collects them, also includes all the imdb users that gave a review to the movish system. It thus queries youtube in order to find a trailer for the movie and it if finds it, updates the movie info. Given all the operations that this function is capable of it resembles the core part of the auto updating feature of the system.
@@ -216,7 +209,7 @@ The importer is the part of the system that implements all the automatism and ma
 
 The core function of the importer is shown in Figure \ref{fig:importer_core}. It is basically the code called by the \textbf{import\_or\_update\_movie} of the scheduler exposed in secion \ref{sec:scheduler}.
 
-The importer connects to the crawler via a proxy service installed in the same server at port 8118. The crawler talks with the importer via a trasparent http proxy such that the crawler can be disabled at any time without affecting the overall system.
+The importer connects to the crawler via a proxy service installed in the same server at port 8118. The crawler talks with the importer via a transparent \ac{http} proxy such that the crawler can be disabled at any time without affecting the overall system.
 
 \subsection{Crawler}
 \label{sec:crawler}
@@ -294,7 +287,7 @@ The project structure is based on web2py \cite{web2py} one. The project has been
 
 The initial dataset used for milo was the one used for the netflix competition \cite{netflixprize} but since it was released in 2001 it was soon figured out that it was pretty outdated and not useful for real recommendations with users. This is why in milo there were a basic importer to get the informations from the imdb.com website. That importer was only able to retrieve basic information. In movish the importer is now able to parse imdb.com directly, to talk to imdb thanks to the imdbpy \cite{imdbpy} library and to parse youtube pages directly. It is also able to parse all reviews in different pages of a movie and get the ratings.
 
-Having this powerful importer, during three continuous months of scraping the imdb.com website, the majority of movies from the 1950 until now have been imported in the system. Resulting in 154606 distinc titles and 106266 distinct users as for Nov 23th 2012. In order to keep the datased up to date, the admin can create a task of updating all the movies via the admin interface explained in secion \ref{sec:admin_interface}. The system is also able to automatically detect if a movie has not all the information and schedules a task for updating the movie information as explained in figure \ref{fig:movie_update}.
+Having this powerful importer, during three continuous months of scraping the imdb.com website, the majority of movies from the 1950 until now have been imported in the system. Resulting in 154606 distinct titles and 106266 distinct users as for Nov 23th 2012. In order to keep the datased up to date, the admin can create a task of updating all the movies via the admin interface explained in secion \ref{sec:admin_interface}. The system is also able to automatically detect if a movie has not all the information and schedules a task for updating the movie information as explained in figure \ref{fig:movie_update}.
 
 \begin{figure}
   \centering
@@ -305,18 +298,18 @@ Having this powerful importer, during three continuous months of scraping the im
 
 When the movie is displayed if the year field is missing or if the poster of the movie is not defined, the movies is then scheduled for an update. The system also provide a cronjob to automatically fetch new reviews and new movies that are going to be released in the next five years or that have been released in the past five years. This ensures that the system has up to date movies an reviews from imdb distributing the load of updating the dataset during time.
 
-This is one of the biggest improvement from ContentWise \cite{ContentWise} and enables new scenario and integration with other realtime or up to date system such as Facebook and Twitter.
+This is one of the biggest improvement from ContentWise \cite{ContentWise} and enables new scenario and integration with other real time or up to date system such as Facebook and Twitter.
 
 \section{Conclusions}
 \label{sec:movish_system_conclusions}
 
-Movish is an extensible fully automatic recommendation survey system for movies. Thanks to its fundamental in bleeding edge technologies and functionalities it is able of self updating the dataset, perform async recommendations, and having a good look and feel thanks to the simple interface. It's architecture is composed by many independent pieces that collaborates each other as explained in section \ref{sec:architecture} minimizing the point of failures that were one of the main problems in Milo. 
+Movish is an extensible fully automatic recommendation survey system for movies. Thanks to its fundamental in bleeding edge technologies and features it is able of self updating the dataset, perform asynchronous recommendations, and having a good look and feel thanks to the simple interface. It's architecture is composed by many independent pieces that collaborates each other as explained in section \ref{sec:architecture} minimizing the point of failures that were one of the main problems in Milo. 
 
 There are some factor that may limit the evolution of Movish in the long term:
 
 \begin{itemize}
 \item \textbf{Matlab dependence}. Having a matlab engine to support existing algorithms was a goal of the project but matlab has been proved, during the movish implementation, that it is not suitable for real time recommendation systems since it requires too many resources and it is too slow compared to native python implementation. In fact if the recommendation algorithms were implemented in python the system would require much less resources and be much faster than it is now. So in the future developing an alternate recommendation engine, maybe in python, would be very helpful and would not impact with the overall system.
-\item \textbf{Improved security}. As for now all the communication with the server is performed via insecure http connections. Switching to https would protect user data transferred over the internet and block password hijacking attempts.
+\item \textbf{Improved security}. As for now all the communication with the server is performed via insecure \ac{http} connections. Switching to \ac{https} would protect user data transferred over the internet and block password hijacking attempts.
 \item \textbf{Improve sources}. As for now only imdb.com and youtube.com are used as sources. Even if they are the most comprehensive sources available there are many more sources with ratings online that could be imported in the system to perform better recommendations.
 \end{itemize}
 

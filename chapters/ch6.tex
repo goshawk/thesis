@@ -7,16 +7,16 @@
 
 The visualization has been proven to be an essential part in the recommendation since it can determine if it is useful or not from the user point of view \cite{trust-building}. There have been studies to determine how an item should be presented to the user in order to gain his/her attention as described in section \ref{sec:Presentation} but there are not been much documented studies about the number of items that a recommendation system should display in order to maximize the user perception of a good recommendation.
 
-Thus the proposal of this research is to evaluate how the number of movie visualized alter the user perception of a good or bad recommendation. To be scientific valid only one variable of the system should vary between all the test groups. In this case the number of items displayed has been chosen to vary between 2, 5 and 10 with at least 30 samples (or completed surveys) each. This is also the first research done using the Movish automatic recommendation survey system.  
+Thus the proposal of this research is to evaluate how the number of movie visualized alter the user perception of a good or bad recommendation. To be scientific valid only one variable of the system should vary between all the test groups. In this case the number of items displayed has been chosen to vary between 2, 5 and 10 with at least 25 samples (or completed surveys) each. This is also the first research done using the Movish automatic recommendation survey system.  
 
-As for algorithm pureSVD has been chosen because it has been proved to have the best performances between all the algorithms supported by the Movish system \cite{performance-recommender-algorithms}. PureSVD was the top performer in both Movielens and Netflix \cite{netflixprize} datasets beating more detailed and sophisticated latent factor models even if it is one of the simplest algorithms available.
+As for algorithm pureSVD has been chosen because it has been proved to have the best performances between all the algorithms supported by the Movish system \cite{performance-recommender-algorithms}. PureSVD was the top performer in both Movielens \cite{movielens} and Netflix \cite{netflixprize} datasets beating more detailed and sophisticated latent factor models even if it is one of the simplest algorithms available.
 
 In section \ref{sec:research_sources} the reader will be guided in analyzing the various sources used, in section \ref{sec:research_survey} a complete survey for this research is exposed. Then in section \ref{sec:research_analysis} the analysis of the data is published and section \ref{sec:research_conclusions} exposes the conclusions.
 
 \section{Sources}
 \label{sec:research_sources}
 
-For this research a number of different resources has been used in order to collect the maximum number of surveys with the minimum budget. Aside of Amazon Mechanical Turk of which we discussed on secion \ref{sec:crowdsourcing}, also Facebook and Google plus have been used in order to test if a survey can go viral on social networks.
+For this research a number of different resources has been used in order to collect the maximum number of surveys with the minimum budget. Aside of Amazon Mechanical Turk of which we discussed on section \ref{sec:crowdsourcing}, also Facebook and Google plus have been used in order to test if a survey can go viral on social networks.
 
 In order to maximize the user attention a whiteboard rewarding an eligibility of prize to the ones that perform the survey has been used. The Facebook post that promoted one of the three surveys that have been performed is displayed in figure \ref{fig:facebook_survey}.
 
@@ -81,7 +81,7 @@ These questions are shown in figure \ref{fig:survey_phase_3}. The user is asked 
   \label{fig:survey_phase_4}
 \end{figure}
 
-It is shown in figure \ref{fig:survey_phase_4}. In order to have a better image for this thesis, the survey with only two recommendation has been chosen. The number of movies displayed in this phase are 2,5 or 10 depending from which specific survey the user is performing. All the not necessary links are removed. The user cannot see the details of a movie either or click on the genres of a movie to perform a search. Given the poster and the title of the movies in the list only the user has to ask question regarding the number of movies watched, the number of movie the user have heard of, the number of watched movies the user likes or dislikes, the recommendation sentiment or if the recommendation is useful for the user or not, which is the main question leading this research and the number of movies from the recommendation that the user will be likely to watch.  
+It is shown in figure \ref{fig:survey_phase_4}. In order to have a better image for this paper, the survey with only two recommendation has been chosen. The number of movies displayed in this phase are 2,5 or 10 depending from which specific survey the user is performing. All the not necessary links are removed. The user cannot see the details of a movie either or click on the genres of a movie to perform a search. Given the poster and the title of the movies in the list only the user has to ask question regarding the number of movies watched, the number of movie the user have heard of, the number of watched movies the user likes or dislikes, the recommendation sentiment or if the recommendation is useful for the user or not, which is the main question leading this research and the number of movies from the recommendation that the user will be likely to watch.  
 
 \begin{figure}
   \centering
@@ -95,7 +95,7 @@ After submitting the recommendation form the user is redirected to the last ques
 \section{Analysis}
 \label{sec:research_analysis}
 
-The data of the survey can be retrieved from the survey list of the admin interface described in section \ref{sec:admin_interface} by clicking oon the ``download results'' icon after the \textit{Amazon Turk link} column.
+The data of the survey can be retrieved from the survey list of the admin interface described in section \ref{sec:admin_interface} by clicking on the \textit{download results} icon after the \textit{Amazon Turk link} column.
 
 For this kind of research the feeling of a good recommendation, such as the rating of the recommendation list, is the driver value of the research. So the first way to look at the data is to count the number of equal ratings and plot them in a barchart, one for each survey. This data is available from the questions of the survey at the question regarding the usefulness of the recommendation.
 
@@ -126,11 +126,30 @@ Figure \ref{fig:survey5} shows the same graph for the second survey, the one dis
 
 Figure \ref{fig:survey10} shows the same graph for the third survey instead, the one in which the user sees 10 movies at the time the user has to rate the recommendation he/she received. In this graph the number of user that rate the recommendation very bad is low like in the survey with 5 movies displayed but the number of people that rated the recommendation as poor is the same as the people that rated the recommendation to be medium. The \textbf{average} of all the ratings is \textbf{2.65} and the \textbf{standard deviation} is \textbf{1.41}.
 
-Due to the nature of the surveys and the different scale (each survey has a different number of samples or people that performed the survey), to better analyze this data considering the average as the primary driver and a higher standard deviation as a noise factor. Using the signal to noise ratio defined as 
+The collected averages and standard deviations are in table \ref{tab:average_std}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    Movies in survey & Average & Standard deviation \\ \hline
+    2 & 2.96 & 1.84 \\ \hline
+    5 & 2.87 & 1.24 \\ \hline
+    10 & 2.65 & 1.41 \\ \hline
+  \end{tabular}
+  \caption{Average and standard deviation of the ratings in the three different surveys}
+  \label{tab:average_std}
+\end{table}
+
+As the reader can see, the survey with 10 movies displayed is the one that has been disliked the most. Its standard deviation is also higher of the one with 5 movies displayed. So we can exclude the 10 movies recommendation as being the best way, according to the data of this surveys to be the best way to display a recommendation. Analyzing the surveys with 2 and 5 movies displayed is more challenging though since in the 2 movies survey the average is higher of the one of 5 movies survey but the standard deviation is bigger than the one with 5 movies. In order to compare this data to have a singular number to measure the effectiveness of a survey against another the signal to noise ratio can be useful.
+
+We can consider the average as the primary driver or signal and a standard deviation as a noise factor because it indicates how much the ratings of the recommendation deviate from the average. 
+
+The signal to noise ratio is defined as 
 \begin{math}
 SNR=\mu/\sigma  
 \end{math}
-every survey can be reduced to a single scalar indicating which survey that had a different number of displayed movie was the best for the users. This leads to data in figure \ref{fig:research_signal_to_noise}
+. Using it, every survey can be reduced to a single scalar indicating which survey that had a different number of displayed movie was the best for the users. This leads to data in figure \ref{fig:research_signal_to_noise}
 
 \begin{figure}
   \centering
@@ -139,18 +158,22 @@ every survey can be reduced to a single scalar indicating which survey that had 
   \label{fig:research_signal_to_noise}
 \end{figure}
 
-These are the
-\begin{math}
-  SNR
-\end{math}
-for each survey:
-\begin{itemize}
-\item \textit{Survey with two displayed movies}: \begin{math}1.61\end{math}
-\item \textit{Survey with five displayed movies}: \begin{math}2.31\end{math}
-\item \textit{Survey with ten displayed movies}: \begin{math}1.88\end{math}
-\end{itemize}
-
 This last graph shows how each survey performs in terms of user likeliness of the recommendation based on the number movies displayed during the recommendation phase. The higher is the bar, the better is the survey.
+
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+    Movies in survey & SNR \\ \hline
+    2 & 1.61 \\ \hline
+    5 & 2.31  \\ \hline
+    10 & 1.88  \\ \hline
+  \end{tabular}
+  \caption{Signal to noise of the three surveys}
+  \label{tab:signal_to_noise}
+\end{table}
+
+Table \ref{tab:signal_to_noise} shows the signal to noise ratio of the three surveys instead. As for the graph, the numeric value highlights the survey with 5 displayed movie to be the best in terms of average and standard deviation. 
 
 \section{Conclusions}
 \label{sec:research_conclusions}
