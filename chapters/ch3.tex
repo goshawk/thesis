@@ -159,7 +159,7 @@ The \ac{ER} diagram can be seen on Figure \ref{fig:db_er}. This diagram shows al
   \label{fig:db5}
 \end{figure}
 
-The main data structures are the one for storing informations about the user called \textit{auth\_user} and \textit{users}, the one for storing the movies called \textit{movies} and the one for the \textit{surveys}. \textit{auth\_user} is web2py specific while \textit{users} is an extension of \textit{auth\_user} in order to support additional field while keeping it separated from the web system. This is so because there are two kind of users in the system. The ones that have registered from the web interface and the ones that have been added from the crawler that gets data from imdb.com \cite{imdb}. We will talk about this later. For now just mind that we don't want to pollute the \textit{auth\_user} table with crawled user that will likely never use the system.
+The main data structures are the one for storing information about the user called \textit{auth\_user} and \textit{users}, the one for storing the movies called \textit{movies} and the one for the \textit{surveys}. \textit{auth\_user} is web2py specific while \textit{users} is an extension of \textit{auth\_user} in order to support additional field while keeping it separated from the web system. This is so because there are two kind of users in the system. The ones that have registered from the web interface and the ones that have been added from the crawler that gets data from imdb.com \cite{imdb}. We will talk about this later. For now just mind that we don't want to pollute the \textit{auth\_user} table with crawled user that will likely never use the system.
 
 \begin{figure}
   \centering

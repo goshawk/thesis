@@ -12,7 +12,7 @@ The reader will be guided on a tour that will include the project architecture, 
 \section{Architecture}
 \label{sec:architecture}
 
-Differently from ContentWise, a monolitic application, and from Milo, a fully separated and modular application, Movish sits in the middle: it is a modular application. The \ac{GUI} and the recommendation engine are in the same application but are two different modules that cooperate in order to limit the point of failures (that were too spread on Milo) and allow flexibility.
+Differently from ContentWise, a monolithic application, and from Milo, a fully separated and modular application, Movish sits in the middle: it is a modular application. The \ac{GUI} and the recommendation engine are in the same application but are two different modules that cooperate in order to limit the point of failures (that were too spread on Milo) and allow flexibility.
 
 \begin{figure}
   \centering
@@ -46,7 +46,7 @@ Movish is a complex application that can be divided in different areas:
 \item \textbf{Importer}. It is the component that calls the crawler and manages the information from the crawler in an ordered way for storing into the database.
 \item \textbf{Crawler}. It is responsible for getting all the information it can from imdb.com and youtube.com based on a movie or a set of movies. It is also able to parse imdb user pages and their ratings. It is most used by the task that update a movie given a movie id.
 \item \textbf{Recommendation engine}. This component takes care of managing the communication with the Matlab engine. Since most of the operations of this module are very computationally expensive, this module is very used by the scheduler.
-\item \textbf{Recommendation algorithms}. Those are all the matlab algorithms placed in a specific folder of the project. There is a logic to detect all the algorithms in a subtree of directories.
+\item \textbf{Recommendation algorithms}. Those are all the matlab algorithms placed in a specific folder of the project. There is a logic to detect all the algorithms in a sub tree of directories.
 \item \textbf{Models}. As described in section \ref{sec:Stack}, models need to be created to perform the recommendation. This component manages all the created models for each algorithm in the system.
 \end{itemize}
 
@@ -285,7 +285,7 @@ The project structure is based on web2py \cite{web2py} one. The project has been
 \section{Dataset}
 \label{sec:dataset}
 
-The initial dataset used for milo was the one used for the netflix competition \cite{netflixprize} but since it was released in 2001 it was soon figured out that it was pretty outdated and not useful for real recommendations with users. This is why in milo there were a basic importer to get the informations from the imdb.com website. That importer was only able to retrieve basic information. In movish the importer is now able to parse imdb.com directly, to talk to imdb thanks to the imdbpy \cite{imdbpy} library and to parse youtube pages directly. It is also able to parse all reviews in different pages of a movie and get the ratings.
+The initial dataset used for milo was the one used for the netflix competition \cite{netflixprize} but since it was released in 2001 it was soon figured out that it was pretty outdated and not useful for real recommendations with users. This is why in milo there were a basic importer to get the information from the imdb.com website. That importer was only able to retrieve basic information. In movish the importer is now able to parse imdb.com directly, to talk to imdb thanks to the imdbpy \cite{imdbpy} library and to parse youtube pages directly. It is also able to parse all reviews in different pages of a movie and get the ratings.
 
 Having this powerful importer, during three continuous months of scraping the imdb.com website, the majority of movies from the 1950 until now have been imported in the system. Resulting in 154606 distinct titles and 106266 distinct users as for Nov 23th 2012. In order to keep the datased up to date, the admin can create a task of updating all the movies via the admin interface explained in secion \ref{sec:admin_interface}. The system is also able to automatically detect if a movie has not all the information and schedules a task for updating the movie information as explained in figure \ref{fig:movie_update}.
 

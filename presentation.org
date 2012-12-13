@@ -1,0 +1,120 @@
+#+TITLE:     Automatic recommendation survey system: Movish
+#+AUTHOR:    Vincenzo Ampolo (750336)
+#+EMAIL:     vincenzo.ampolo@gmail.com
+#+DATE:      2012-12-20 Tue
+#+DESCRIPTION: Movish thesis presentation
+#+KEYWORDS: movish, thesis
+#+LANGUAGE:  it
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+#+BEAMER_FRAME_LEVEL: 2
+#+COLUMNS: %40ITEM %10BEAMER_env(Env) %9BEAMER_envargs(Env Args) %4BEAMER_col(Col) %10BEAMER_extra(Extra)
+#+latex_header: \mode<beamer>{\usetheme{PaloAlto}}
+
+* Sistemi di raccomandazione
+** Cosa sono e perchè?
+
+- I sistemi di raccomandazione sono dei sistemi informatici atti a filtrare informazioni in modo da selezionare solo quei dati
+  che possono essere di interesse per l'utente. 
+
+- Sono componente fondamentale di tutti i nuovi servizi di successo come Facebook, Amazon, Google, Netflix e Hulu.
+
+- In un mondo con sempre più informazioni è fondamentale aiutare l'utente nella ricerca di beni o servizi di suo interesse 
+  in modo da massimizzare i profitti e la soddisfazione dell'utente. 
+
+  
+** Fattore discriminante
+
+- Componente fondamentale: algoritmo \to responsabile del filtraggio delle informazioni.
+
+- Gli algoritmi possono essere di due tipi: 
+   - /basati sul dato/ o /content based/
+   - /collaborativi/ o /collaborative/
+
+** Come avviene una raccomandazione
+#+ATTR_LaTeX: width=0.7\textwidth
+[[file:./figures/stack.png]]
+
+* Lavori precedenti
+** ContentWise
+
+*** Pro 							    :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    - Riconoscimenti: IPTV World Series Awards 2008
+    - Ampiamente utilizzato
+      
+
+*** Con								    :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    - architettura rigida: difficile aggiungere e testare nuovi algoritmi
+    - interfaccia studiata per gli esperti del settore
+    - nessun supporto ai questionari
+    
+** Milo
+*** center						     :B_structureenv:
+    :PROPERTIES:
+    :BEAMER_env: structureenv
+    :END:
+#+begin_center
+#+ATTR_LaTeX: width=0.4\textwidth 
+[[file:./figures/milo_architecture.jpg]]
+#+end_center
+*** Pro							      :BMCOL:B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :BEAMER_col: 0.5
+    :END:
+    distribuito, questionari
+*** Con							      :BMCOL:B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :BEAMER_col: 0.5
+    :END:
+    troppi /point of failure/, aggiornamento dataset
+
+* Movish
+** Caratteristiche
+- Tecnologia
+  - Python (web2py), Matlab, Tor, PostgreSQL
+- Integrazione
+  - Unico applicativo modulare
+- Flessibilià
+  - Aggiunta nuovi algoritmi
+- Indipendenza
+  - Auto aggiornamento passivo ed attivo
+- Scalabilità
+  - Cloud ready, task asincroni
+
+** Architettura
+#+begin_center
+#+ATTR_LaTeX: width=0.6\textwidth
+[[file:./figures/movish_architecture.png]]
+#+end_center
+** Questionari
+- Movish ha supporto nativo ai questionari
+- Html form \to Database
+- Supporto di Amazon Turk
+- 
+
+
+* Ricerca
+** Scopo
+** Demo
+#+BEGIN_CENTER
+[[http://movish.co]]
+#+END_CENTER
+** Analisi
+
