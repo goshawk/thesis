@@ -26,11 +26,11 @@
 - I sistemi di raccomandazione sono dei sistemi informatici atti a filtrare informazioni in modo da selezionare solo quei dati
   che possono essere di interesse per l'utente. 
 
-- Sono componente fondamentale di tutti i nuovi servizi di successo come Facebook, Amazon, Google, Netflix e Hulu.
+- Sono componente fondamentale di Facebook, Amazon, Google, Netflix e Hulu.
 
 - In un mondo con sempre più informazioni è fondamentale aiutare l'utente nella ricerca di beni o servizi di suo interesse 
   in modo da massimizzare i profitti e la soddisfazione dell'utente. 
-
+  
   
 ** Fattore discriminante
 
@@ -104,17 +104,72 @@
 [[file:./figures/movish_architecture.png]]
 #+end_center
 ** Questionari
-- Movish ha supporto nativo ai questionari
+*** Supporto nativo ai questionari 				      :BMCOL:
+    :PROPERTIES:
+    :BEAMER_col: 0.5
+    :END:
 - Html form \to Database
-- Supporto di Amazon Turk
-- 
+- Amazon Mechanical Turk
+#+BEGIN_CENTER
+[[file:./figures/amazon_turk_surveys.png]]
+#+END_CENTER
 
-
+*** Creazione di un suvery			      :BMCOL:B_ignoreheading:
+    :PROPERTIES:
+    :BEAMER_col: 0.5
+    :BEAMER_env: ignoreheading
+    :END:
+#+BEGIN_CENTER
+[[file:./figures/survey_creation.png]]
+#+END_CENTER
 * Ricerca
 ** Scopo
+- Visualizzazione \to elemento fondamentale che influenza la soddisfazione dell'utente.
+- Come varia la soddisfazione dell'utente in base al numero di film proposti nella raccomanazione ?
+  - 3 questionari:
+    - 2 film
+    - 5 film
+    - 10 film
+  - 25+ campioni per ciascuna tipologia
 ** Demo
 #+BEGIN_CENTER
 [[http://movish.co]]
 #+END_CENTER
-** Analisi
-
+* Analisi
+** Analisi 2 film
+#+BEGIN_CENTER
+[[file:./figures/survey2_graph1.png]]
+#+END_CENTER
+** Analisi 5 film
+#+BEGIN_CENTER
+[[file:./figures/survey5_graph1.png]]
+#+END_CENTER
+** Analisi 10 film
+#+BEGIN_CENTER
+[[file:./figures/survey10_graph1.png]]
+#+END_CENTER
+** Media e Deviazione standard
+#+BEGIN_CENTER
+#+BEGIN_LaTeX
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    Movies in survey & Average & Standard deviation \\ \hline
+    2 & 2.96 & 1.84 \\ \hline
+    5 & 2.87 & 1.24 \\ \hline
+    10 & 2.65 & 1.41 \\ \hline
+  \end{tabular}
+  \label{tab:average_std}
+\end{table}
+#+END_LaTeX
+#+END_CENTER
+** Signal to noise
+#+BEGIN_CENTER
+[[file:./figures/research_signal_to_noise_ratio.png]]
+#+END_CENTER
+* Domande
+** Domande
+#+BEGIN_CENTER
+?
+#+END_CENTER
