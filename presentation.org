@@ -1,7 +1,7 @@
 #+TITLE:     Automatic recommendation survey system: Movish
 #+AUTHOR:    Vincenzo Ampolo (750336)
 #+EMAIL:     vincenzo.ampolo@gmail.com
-#+DATE:      2012-12-20 Tue
+#+DATE:      Relatore: Prof. Paolo Cremonesi \\ Correlatore: Prof. Leonardo Bruni
 #+DESCRIPTION: Movish thesis presentation
 #+KEYWORDS: movish, thesis
 #+LANGUAGE:  it
@@ -26,23 +26,13 @@
 - I sistemi di raccomandazione sono dei sistemi informatici atti a filtrare informazioni in modo da selezionare solo quei dati
   che possono essere di interesse per l'utente. 
 
-- Sono componente fondamentale di Facebook, Amazon, Google, Netflix e Hulu.
-
-- In un mondo con sempre più informazioni è fondamentale aiutare l'utente nella ricerca di beni o servizi di suo interesse 
-  in modo da massimizzare i profitti e la soddisfazione dell'utente. 
-  
-  
-** Fattore discriminante
-
-- Componente fondamentale: algoritmo \to responsabile del filtraggio delle informazioni.
-
-- Gli algoritmi possono essere di due tipi: 
-   - /basati sul dato/ o /content based/
-   - /collaborativi/ o /collaborative/
+- Sono componente fondamentale di Facebook, Amazon, Google, Netflix, Hulu e Pinterest.
 
 ** Come avviene una raccomandazione
+#+BEGIN_CENTER
 #+ATTR_LaTeX: width=0.7\textwidth
 [[file:./figures/stack.png]]
+#+END_CENTER
 
 * Lavori precedenti
 ** ContentWise
@@ -62,33 +52,22 @@
     - architettura rigida: difficile aggiungere e testare nuovi algoritmi
     - interfaccia studiata per gli esperti del settore
     - nessun supporto ai questionari
-    
+      
 ** Milo
-*** center						     :B_structureenv:
-    :PROPERTIES:
-    :BEAMER_env: structureenv
-    :END:
-#+begin_center
-#+ATTR_LaTeX: width=0.4\textwidth 
-[[file:./figures/milo_architecture.jpg]]
-#+end_center
-*** Pro							      :BMCOL:B_block:
+*** Pro								    :B_block:
     :PROPERTIES:
     :BEAMER_env: block
-    :BEAMER_col: 0.5
     :END:
-    distribuito, questionari
-*** Con							      :BMCOL:B_block:
+    - distribuito
+    - supporto di una tipologia di questionario
+*** Con								    :B_block:
     :PROPERTIES:
     :BEAMER_env: block
-    :BEAMER_col: 0.5
     :END:
-    troppi /point of failure/, aggiornamento dataset
-
-* Movish
-** Caratteristiche
-- Tecnologia
-  - Python (web2py), Matlab, Tor, PostgreSQL
+    - troppi /point of failure/
+    - aggiornamento dataset
+      
+** Si può fare di meglio?
 - Integrazione
   - Unico applicativo modulare
 - Flessibilià
@@ -97,33 +76,41 @@
   - Auto aggiornamento passivo ed attivo
 - Scalabilità
   - Cloud ready, task asincroni
-
+- Supporto nativo all'analisi dei dati
+  - Questionari
+* Movish
 ** Architettura
 #+begin_center
 #+ATTR_LaTeX: width=0.6\textwidth
 [[file:./figures/movish_architecture.png]]
 #+end_center
-** Questionari
-*** Supporto nativo ai questionari 				      :BMCOL:
-    :PROPERTIES:
-    :BEAMER_col: 0.5
-    :END:
-- Html form \to Database
-- Amazon Mechanical Turk
+** Architettura: graphical engine
+#+begin_center
+#+ATTR_LaTeX: width=0.6\textwidth
+[[file:./figures/movish_architecture_1.png]]
+#+end_center
+** Architettura: scheduler
+#+begin_center
+#+ATTR_LaTeX: width=0.6\textwidth
+[[file:./figures/movish_architecture_2.png]]
+#+end_center 
+** Architettura: importer
+#+begin_center
+#+ATTR_LaTeX: width=0.6\textwidth
+[[file:./figures/movish_architecture_4.png]]
+#+end_center
+** Architettura: recommendation engine
+#+begin_center
+#+ATTR_LaTeX: width=0.6\textwidth
+[[file:./figures/movish_architecture_3.png]]
+#+end_center
+** Questionari: Architettura
 #+BEGIN_CENTER
-[[file:./figures/amazon_turk_surveys.png]]
-#+END_CENTER
-
-*** Creazione di un suvery			      :BMCOL:B_ignoreheading:
-    :PROPERTIES:
-    :BEAMER_col: 0.5
-    :BEAMER_env: ignoreheading
-    :END:
-#+BEGIN_CENTER
-[[file:./figures/survey_creation.png]]
+#+ATTR_LaTeX: width=0.5\textwidth
+[[file:./figures/movish_survey_architecture.jpg]]
 #+END_CENTER
 * Ricerca
-** Scopo
+** Goal
 - Visualizzazione \to elemento fondamentale che influenza la soddisfazione dell'utente.
 - Come varia la soddisfazione dell'utente in base al numero di film proposti nella raccomanazione ?
   - 3 questionari:
@@ -131,11 +118,6 @@
     - 5 film
     - 10 film
   - 25+ campioni per ciascuna tipologia
-** Demo
-#+BEGIN_CENTER
-[[http://movish.co]]
-#+END_CENTER
-* Analisi
 ** Analisi 2 film
 #+BEGIN_CENTER
 [[file:./figures/survey2_graph1.png]]
@@ -168,8 +150,20 @@
 #+BEGIN_CENTER
 [[file:./figures/research_signal_to_noise_ratio.png]]
 #+END_CENTER
+* Demo
+** Demo
+#+BEGIN_CENTER
+[[http://movish.co]]
+#+END_CENTER
+* Lavori futuri
+** Lavori futuri
+- editor di questionari
+- editor di algoritmi
+- sorgenti di /rating/
+- rimuovere dipendenza da Matlab
 * Domande
 ** Domande
 #+BEGIN_CENTER
-?
+#+ATTR_LaTeX: width=0.5\textwidth
+[[file:./figures/questions.jpg]]
 #+END_CENTER
