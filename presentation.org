@@ -109,6 +109,36 @@
 #+ATTR_LaTeX: width=0.5\textwidth
 [[file:./figures/movish_survey_architecture.jpg]]
 #+END_CENTER
+** Questionari: Architettura: domande demografiche
+#+BEGIN_CENTER
+#+ATTR_LaTeX: width=0.5\textwidth
+[[file:./figures/movish_survey_architecture_1.png]]
+#+END_CENTER
+** Questionari: Architettura: free ratings
+#+BEGIN_CENTER
+#+ATTR_LaTeX: width=0.5\textwidth
+[[file:./figures/movish_survey_architecture_2.png]]
+#+END_CENTER
+** Questionari: Architettura: domande sul catalogo
+#+BEGIN_CENTER
+#+ATTR_LaTeX: width=0.5\textwidth
+[[file:./figures/movish_survey_architecture_3.png]]
+#+END_CENTER
+** Questionari: Architettura: raccomandazione
+#+BEGIN_CENTER
+#+ATTR_LaTeX: width=0.5\textwidth
+[[file:./figures/movish_survey_architecture_4.png]]
+#+END_CENTER
+** Questionari: Architettura: informazioni sulla sommininstrazione
+#+BEGIN_CENTER
+#+ATTR_LaTeX: width=0.5\textwidth
+[[file:./figures/movish_survey_architecture_5.png]]
+#+END_CENTER
+** Questionari: Architettura: fine
+#+BEGIN_CENTER
+#+ATTR_LaTeX: width=0.5\textwidth
+[[file:./figures/movish_survey_architecture_6.png]]
+#+END_CENTER
 * Ricerca
 ** Goal
 - Visualizzazione \to elemento fondamentale che influenza la soddisfazione dell'utente.
